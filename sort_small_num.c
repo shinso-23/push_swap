@@ -6,7 +6,7 @@
 /*   By: aagodim <aagodim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 20:40:10 by aagodim           #+#    #+#             */
-/*   Updated: 2025/02/21 16:35:52 by aagodim          ###   ########.fr       */
+/*   Updated: 2025/02/23 21:32:13 by aagodim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ void	do_operations(t_list **head, t_list	**stack_b, t_sort p)
 		if (first > second)
 			swap_top_stack(head, 'a');
 	}
-	if (p.count == 3)
+	else if (p.count == 3)
 		sort_three(head);
-	if (p.count == 4)
+	else if (p.count == 4)
 		sort_four(head, stack_b);
-	if (p.count == 5)
+	else if (p.count == 5)
 		sort_five(head, stack_b);
 	else
 		algo_sort(head, stack_b, p);

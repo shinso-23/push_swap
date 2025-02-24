@@ -6,7 +6,7 @@
 /*   By: aagodim <aagodim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 20:40:08 by aagodim           #+#    #+#             */
-/*   Updated: 2025/02/22 02:02:55 by aagodim          ###   ########.fr       */
+/*   Updated: 2025/02/24 13:10:06 by aagodim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,13 @@
 int	check_validity(char *s)
 {
 	if (!s || !*s)
-	{
-		printf("Invalid Input");
 		return (0);
-	}
 	if ((*s == '+' || *s == '-') && *(s + 1))
 		s++;
 	while (*s)
 	{
 		if (!ft_isdigit(*s))
-		{
-			printf("Invalid Input");
 			return (0);
-		}
 		s++;
 	}
 	return (1);
@@ -41,10 +35,7 @@ int	check_duplication(t_list **head, int num)
 	while (current)
 	{
 		if (current->content == num)
-		{
-			printf("Duplicated numbers\n");
 			return (1);
-		}
 		current = current->next;
 	}
 	return (0);
@@ -61,7 +52,10 @@ t_list	*add_to_list(t_list **head, int num)
 	newnode->content = num;
 	newnode->next = NULL;
 	if (!*head)
+	{
+		*head = newnode;
 		return (newnode);
+	}
 	current = *head;
 	while (current->next)
 		current = current->next;
@@ -69,7 +63,7 @@ t_list	*add_to_list(t_list **head, int num)
 	return (*head);
 }
 
-int	splitting_ag(t_list **head, char *s, t_sort p)
+int	splitting_ag(t_list **head, char *s, t_sort *p)
 {
 	char	**result;
 	int		i;
@@ -78,23 +72,22 @@ int	splitting_ag(t_list **head, char *s, t_sort p)
 	i = 0;
 	result = ft_split(s, ' ');
 	if (!result || !*result)
-	{
-		printf("Error!");
-		return (1);
-	}
+		return (free_all(result), ft_putstr_fd("Error!", 2), -1);
 	while (result[i])
 	{
+		if (ft_atoi_error(result[i]))
+			return (free_all(result), ft_putstr_fd("Overflow!", 2), -1);
 		if (!check_validity(result[i]))
-			return (1);
+			return (free_all(result), ft_putstr_fd("Invalid input!", 2), -1);
 		num = ft_atoi(result[i]);
 		if (check_duplication(head, num))
-			return (1);
+			return (free_all(result), ft_putstr_fd("Duplication!", 2), -1);
 		(*head) = add_to_list(head, num);
-		p.count++;
+		p->count++;
 		i++;
 	}
 	free_all(result);
-	return (p.count);
+	return (p->count);
 }
 
 int	main(int ac, char **av)
@@ -109,15 +102,16 @@ int	main(int ac, char **av)
 	i = 1;
 	p.count = 0;
 	if (ac < 2)
-	{
-		printf("Short ON Arguments");
-		return (1);
-	}
+		return ((ft_putstr_fd("Short ON Arguments", 2)), 1);
 	while (av[i])
 	{
-		p.count = splitting_ag(&head, av[i], p);
+		p.count = splitting_ag(&head, av[i], &p);
+		if (p.count == -1)
+			return (list_remove(&head), 1);
 		i++;
 	}
+	if (stack_sorted(&head))
+		return (list_remove(&head), 0);
 	do_operations(&head, &stack_b, p);
 	list_remove(&head);
 	return (0);

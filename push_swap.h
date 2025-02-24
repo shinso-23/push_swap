@@ -6,7 +6,7 @@
 /*   By: aagodim <aagodim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 06:48:33 by aagodim           #+#    #+#             */
-/*   Updated: 2025/02/22 02:01:46 by aagodim          ###   ########.fr       */
+/*   Updated: 2025/02/24 10:37:41 by aagodim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	rr(t_list **stack_src, t_list **stack_dest);
 void	rrr(t_list **stack_src, t_list **stack_dest);
 int		ft_isdigit(int c);
 int		ft_atoi(const char *str);
+int		ft_atoi_error(const char *str);
 char	**ft_split(char const *s, char c);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 void	sort_five(t_list **head, t_list **stack_b);
@@ -60,5 +61,8 @@ void	push_to_b(t_list **head, t_list **stack_b, int *arr, t_sort p);
 void	push_to_a(t_list **head, t_list **stack_b, t_sort p);
 void	do_this(t_sort p, t_list **stack_b, t_list **head);
 void	list_remove(t_list **lst);
+int		stack_sorted(t_list **head);
+void	ft_putstr_fd(char *s, int fd);
+int		ft_strlen(char *s);
 
 #endif
